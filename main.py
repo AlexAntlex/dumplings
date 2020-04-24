@@ -25,8 +25,8 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 
-class Anonymous(AnonymousUserMixin):
-    def __init__(self):
+class Anonymous(AnonymousUserMixin):  # если пользователь не зашел в свою учетку
+    def __init__(self):               # его id становится 0
         self.id = '0'
 
 
@@ -51,20 +51,20 @@ def before_request():
     g.user = current_user
 
 
-@app.route('/game/<id>', methods=['GET', 'POST'])
-def game(id):
+@app.route('/game/<id>', methods=['GET', 'POST'])  # раздел с игрой, подключаем шаблон html,
+def game(id):                                      # передаем id, подключается игра из списка
     return render_template("game.html", id=id)
 
 
-@app.route('/apps')
+@app.route('/apps')  # страница со списком игр
 def apps():
     return render_template("apps.html")
 
 
-@app.route("/", methods=['GET', 'POST'])
-def index():
-    session = db_session.create_session()
-    if request.method == "POST":
+@app.route("/", methods=['GET', 'POST'])     # стартовая страница с отображением последних постов на сайте
+def index():                                 # не показывает собственные посты, есть возможность показывать посты
+    session = db_session.create_session()    # отдельно групп или отдельно пользователей
+    if request.method == "POST":             # если пользователь не зашел в акк, то показываются все посты
         if request.form.get("options") == 'user':
             my = g.user.id
             posts = session.query(PostUser).filter(PostUser.autor_id != my).order_by(PostUser.id.desc())
@@ -75,16 +75,16 @@ def index():
     return render_template('start_page.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])  # страница регистрации, подключает форму регистрации
 def reqister():
     form = RegisterForm()
     if form.validate_on_submit():
-        if form.password.data != form.password_again.data:
+        if form.password.data != form.password_again.data:  # проверка на парвильность пароля
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Пароли не совпадают")
         session = db_session.create_session()
-        if session.query(User).filter(User.email == form.email.data).first():
+        if session.query(User).filter(User.email == form.email.data).first():  # проверка на наличие пользователя
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
@@ -93,7 +93,7 @@ def reqister():
             email=form.email.data,
             avatar=url_for('static', filename='img/boy.png')
         )
-        user.set_password(form.password.data)
+        user.set_password(form.password.data)  # заносит данные в бд и перенаправляет на страницу с логином
         session.add(user)
         session.commit()
         return redirect('/login')
@@ -106,14 +106,14 @@ def load_user(user_id):
     return session.query(User).get(user_id)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])  # страница с логином, вызывает форму логина и шаблон
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         session = db_session.create_session()
         user = session.query(User).filter(
             User.email == form.email.data).first()
-        if user and user.check_password(form.password.data):
+        if user and user.check_password(form.password.data):  # проверка на правильность пароля
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
         return render_template('login.html',
@@ -122,19 +122,19 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
-@app.route('/logout')
+@app.route('/logout')  # при выходе из учетки идет перенаправление на стартовую страницу
 @login_required
 def logout():
     logout_user()
     return redirect("/")
 
 
-@app.route("/delete", methods=['GET', 'POST'])
+@app.route("/delete", methods=['GET', 'POST'])  # удаление страницы, шаблон с удалением + форма
 def delete():
     form = DeleteForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('delete.html', title='Deletion',
+            return render_template('delete.html', title='Deletion',  # проверка на правильность пароля
                                    form=form,
                                    message="Пароли не совпадают")
         else:
@@ -144,26 +144,26 @@ def delete():
             if user.check_password(form.password.data):
                 session.delete(user)
                 session.commit()
-                return redirect('/register')
+                return redirect('/register')  # при совпадении данных перенаправляет на страницу регистрации
     return render_template('delete.html', title='Deletion', form=form)
 
 
-@app.route('/user/<id>', methods=['GET', 'POST'])
+@app.route('/user/<id>', methods=['GET', 'POST'])  # загрузка профиля пользователя
 def user_profile(id):
     session = db_session.create_session()
     user = session.query(User).filter_by(id=id).first()
-    form = PostForm()
+    form = PostForm()  # форма с постами
     if user == None:
         flash('User ' + id + ' not found.')
         return render_template('login.html')
     else:
-        you = user.name
-        my = g.user.id
+        you = user.name                            # если пользователь и текущий юзер совпадают
+        my = g.user.id                             # добавляется возможность делать посты + редактировать/удалять
         info = user.about
         user_id = int(id)
         if my == user_id:
-            if form.validate_on_submit():
-                file = form.file_url.data
+            if form.validate_on_submit():          # добавление поста в бд
+                file = form.file_url.data          # если есть картинка
                 if file and allowed_file(file.filename):
                     filename = secure_filename(file.filename)
                     way_to_file = os.path.join(app.config['UPLOAD_FOLDER_USER'], filename)
@@ -175,7 +175,7 @@ def user_profile(id):
                     session.add(post)
                     session.commit()
                     return redirect(f'{id}')
-                elif file.filename == '':
+                elif file.filename == '':          # если картинки нет
                     post = PostUser(text=form.text.data,
                                     date=datetime.datetime.now().strftime("%A %d %b %Y (%H:%M)"),
                                     autor_id=my)
@@ -191,8 +191,8 @@ def user_profile(id):
                                    form=form, posts=posts, avatar=user.avatar, id=id)
 
 
-@app.route('/post_edit/<int:id>', methods=['GET', 'POST'])
-@login_required
+@app.route('/post_edit/<int:id>', methods=['GET', 'POST'])  # страница с редактированием поста, имеет свой шаблон
+@login_required                                             # редактирует пост, который находит в бд
 def post_edit(id):
     form = PostForm()
     session = db_session.create_session()
@@ -217,7 +217,7 @@ def post_edit(id):
     return render_template('delete_post.html', form=form, prev_text=prev_text)
 
 
-@app.route('/post_delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/post_delete/<int:id>', methods=['GET', 'POST'])  # удаление поста из бд
 @login_required
 def post_delete(id):
     session = db_session.create_session()
@@ -231,7 +231,7 @@ def post_delete(id):
     return redirect(f'/user/{g.user.id}')
 
 
-@app.route('/edit', methods=['GET', 'POST'])
+@app.route('/edit', methods=['GET', 'POST'])  # редакт профиля, изменяет данные в базе данных
 def edit():
     form = ChangeIngoForm()
     user_id = g.user.id
@@ -266,8 +266,8 @@ def edit():
     return render_template('edit_group.html', info=user.about, name=user.name, form=form, im_user=1, pic=name)
 
 
-@app.route('/group/<int:id_group>', methods=['GET', 'POST'])
-def group(id_group):
+@app.route('/group/<int:id_group>', methods=['GET', 'POST'])  # страница с определенной группой
+def group(id_group):                                          # возможность писать посты как у юзера и редачить их
     session = db_session.create_session()
     user = session.merge(current_user)
     form = PostForm()
@@ -292,7 +292,7 @@ def group(id_group):
                            avatar=group_info.avatar, id=id_group, my=my,  user=user)
 
 
-@app.route('/groups')
+@app.route('/groups')  # список групп, на которые подписан юзер
 def list_group():
     session = db_session.create_session()
     groups = session.query(Group).all()
@@ -300,13 +300,13 @@ def list_group():
     return render_template('group_list.html', title='you', groups=groups, user=user)
 
 
-@app.route('/group_delete/<int:id_group>', methods=['GET', 'POST'])
+@app.route('/group_delete/<int:id_group>', methods=['GET', 'POST'])  # удаление группы из базы данных
 def delete_group(id_group):
     session = db_session.create_session()
     group = session.query(Group).filter_by(id=id_group).first()
     if group:
         for post in session.query(Post).filter(Post.autor_id == id_group):
-            session.delete(post)
+            session.delete(post)                                     # автоматически удаляет все посты из базы данных
         session.delete(group)
         session.commit()
     else:
@@ -314,7 +314,7 @@ def delete_group(id_group):
     return redirect('/')
 
 
-@app.route('/group_edit/<int:id_group>', methods=['GET', 'POST'])
+@app.route('/group_edit/<int:id_group>', methods=['GET', 'POST'])  # редактирование информации о группе
 def edit_group(id_group):
     form = ChangeIngoForm()
     if request.method == "GET":
@@ -343,12 +343,12 @@ def edit_group(id_group):
             return redirect(f'/group/{id_group}')
         else:
             os.abort(404)
-    num = random.randint(1, 21)
+    num = random.randint(1, 35)       # чтобы не было пусто, отображает рандомные картинки из специальной папки
     name = "img/edit/edit" + str(num) + ".jpg"
     return render_template('edit_group.html', info=group, form=form, im_user=0, pic=name)
 
 
-@app.route('/make_group', methods=['GET', 'POST'])
+@app.route('/make_group', methods=['GET', 'POST'])  # создание новой группы с автоматическим указанием админа
 def make_group():
     form = ChangeIngoForm()
     if form.validate_on_submit():
@@ -357,7 +357,7 @@ def make_group():
         group = Group(
             name=form.name.data,
             info=form.info.data,
-            avatar=url_for('static', filename='img/deer.png'),
+            avatar=url_for('static', filename='img/deer.png'),  # внесение в бд со стандартной аватаркой
             admin=g.user.id
         )
         session.add(group)
@@ -367,7 +367,7 @@ def make_group():
     return render_template('edit_group.html', title='Groups', form=form)
 
 
-@app.route('/group_post_edit/<int:id>', methods=['GET', 'POST'])
+@app.route('/group_post_edit/<int:id>', methods=['GET', 'POST'])  # редакт поста в группе, тот же шаблон, что у юзера
 def gr_post_edit(id):
     form = PostForm()
     session = db_session.create_session()
@@ -391,7 +391,7 @@ def gr_post_edit(id):
     return render_template('delete_post.html', form=form, prev_text=prev_text)
 
 
-@app.route('/group_post_delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/group_post_delete/<int:id>', methods=['GET', 'POST'])  # удаление поста в группе аналогично с удалением поста юзера
 @login_required
 def gr_post_delete(id):
     session = db_session.create_session()
@@ -426,8 +426,8 @@ def unfollow(group_id):
     return redirect(f'/')
 
 
-@app.route('/joke')
-def random_joke():
+@app.route('/joke')  # страница с шутками, подключает api, достающий рандомную шутку из базы
+def random_joke():   # добавляет рандомную картинку смайлика из папки
     api_server = "https://icanhazdadjoke.com/slack"
     response = requests.get(api_server)
     json_response = response.json(strict=False)
