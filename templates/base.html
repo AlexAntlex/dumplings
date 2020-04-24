@@ -5,18 +5,29 @@
         <title>{% block title %}dumplings{% endblock %}</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
             integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+              integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 <body>
         <nav class="navbar navbar-light justify-content-between " style="background-color: #60246c;">
             <a class="navbar-brand" href="/">
                 <div class="color-text-title"><h2>dumplings</h2></div>
             </a>
+            <div id="radiobells_container"></div>
+            <link href="https://www.radiobells.com/script/style.css" type="text/css" rel="stylesheet" /><script type="text/javascript">var rad_backcolor="#d9906f"; var rad_logo = "black"; var rad_autoplay = false; var rad_width = "responsive"; var rad_width_px = 330;var rad_stations =[['http://emgregion.hostingradio.ru:8064/moscow.europaplus.mp3','Европа плюс','europaplus'],['http://air.radiorecord.ru:805/rr_320','Радио Рекорд','radiorecord'],['http://nashe1.hostingradio.ru/nashe-128.mp3','Наше радио','nashe'],['http://ic7.101.ru:8000/a100?userid=0','Авторадио','avtoradio'],['http://ic7.101.ru:8000/a99?','Радио Energy','nrj'],['http://online.kissfm.ua/KissFM_HD','Kiss FM','kissfm'],['http://europaplus.hostingradio.ru:8014/retro320.mp3','Ретро FM','retrofmrus']];</script><script type="text/javascript" src="https://www.radiobells.com/script/v2_1.js" charset="UTF-8"></script>
             <form class="form-inline">
-                 <div class="btn-group" role="group" aria-label="Basic">
-                      <a href="/register" class="btn btn-outline-warning my-2 my-sm-0">Registration</a>
-                      <a href="/login" class="btn btn-outline-warning my-2 my-sm-0">log in</a>
-                 </div>
+                {% if current_user.is_authenticated %}
+                    <a class="btn btn-outline-warning my-2 my-sm-0" href="/logout">Logout</a>
+                {% else %}
+                     <div class="btn-group" role="group" aria-label="Basic">
+                          <a href="/register" class="btn btn-outline-warning my-2 my-sm-0">Registration</a>
+                          <a href="/login" class="btn btn-outline-warning my-2 my-sm-0">Log in</a>
+                     </div>
+                {% endif %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarText" aria-controls="navbarText"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -26,12 +37,23 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                  </li>
-                </ul>
+                    {% if current_user.is_authenticated %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="/user/{{g.user.id}}">Me</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/groups">My groups</a>
+                      </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="/apps">Apps</a>
+                      </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="/joke">Get a joke</a>
+                      </li>
+                    </ul>
+                    {% endif %}
             </div>
         </nav>
         <main role="main" class="container">

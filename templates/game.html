@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_style.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/posts_style.css') }}" />
+
+<table align="center" cellpadding="15">
+    <tr>
+        <td></td>
+{% if id == '1' %}
+                <td><iframe width='864' height='486' frameborder='0' scrolling='no' src='http://www.4j.com/embed/Duck-Hunter-2'></iframe></td>
+{% elif id == '2' %}
+<td><embed src="https://onlajnigry.net/uploads/files/2014-12/1417860228_fire_and_water.swf" height="550px" width="730px" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" base="https://onlajnigry.net/uploads/files/2014-12/" quality="high" allowfullscreen="false" wmode="direct" /></td>
+{% elif id == '3' %}
+<td><embed src="https://onlinegames.alawar.ru/onlinegames/unpacked/ru/masyanas-in-africa/AAW_MasyanasInAfrica.swf?alawar_f=true" height="480" width="640" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" base="https://onlinegames.alawar.ru/onlinegames/unpacked/ru/masyanas-in-africa/" quality="high" allowfullscreen="false" wmode="direct" /></td>
+{% elif id == '4' %}
+<td><iframe src="http://www.en.rakam1.com/swf/ski-safari-unity-3d.html" width="700" height="573" align="bottom" scrolling=no frameborder=0 allowTransparency="true"></iframe></p></td>
+{% elif id == '5' %}
+<td><iframe id="gameframe" width="800" height="600" src="https://files.acticdn.com/278374/25804/index.html" scrolling="no"></iframe></td>
+{% elif id == '6' %}
+<td><iframe id="gameframe" width="800" height="600" src="https://www.flashplayer.ru/playgame.php?n=27611" scrolling="no" style="width: 133.6px; height: 75px; visibility: visible;"></iframe></td>
+{% elif id == '7' %}
+<td><iframe id="gameframe" width="800" height="600" src="https://html5.gamedistribution.com/fdf776d4e3f34b2c88e4d9649560024c/" scrolling="no"></iframe></td>
+{% elif id == '8' %}
+<td><iframe id="gameframe" width="800" height="600" src="https://html5.gamedistribution.com/21c17cd544534a0f9058bbf0a39410d2/" scrolling="no"></iframe></td>
+{% elif id == '9' %}
+<td><embed src="http://178.62.143.36/fight/f/5041.swf" menu="false" quality="high" bgcolor="white" width="640" height="480" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></td>
+{% elif id == '10' %}
+<td><embed src="http://178.62.143.36/fight/f/5042.swf" menu="false" quality="high" bgcolor="white" width="640" height="480" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></td>
+{% elif id == '11' %}
+<td><embed src="http://178.62.143.36/fight/f/5043.swf" menu="false" quality="high" bgcolor="white" width="640" height="480" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></td>
+{% elif id == '12' %}
+<td><embed src="http://178.62.143.36/fight/f/5044.swf" menu="false" quality="high" bgcolor="white" width="640" height="480" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"></td>
+{% elif id == '13' %}
+<td><embed src="http://g.vseigru.net/igra-baranchik-shon-salon-krasoty.swf" height="600" width="800" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" base="http://g.vseigru.net/" quality="high" allowfullscreen="false" wmode="direct" /></td>
+{% elif id == '14' %}
+<td><embed src="http://www.all-gamenews.ru/flash2/oden-aanga.swf" height="600" width="800" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" base="http://www.all-gamenews.ru/flash2/" quality="high" allowfullscreen="false" wmode="direct" /></td>
+{% elif id == '15' %}
+<td><embed src="http://flashdozor.ru/games/flash/folders/zumaclassic/zuma.swf" height="360" width="480" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" base="http://flashdozor.ru/games/flash/folders/zumaclassic/" quality="high" allowfullscreen="false" wmode="direct" /></td>
+
+{% endif %}
+    </tr>
+</table>
+<p align="center"><a href="/apps" class="btn btn-outline-warning my-2 my-sm-0">Back to games</a>
+{% endblock %}

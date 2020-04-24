@@ -1,0 +1,54 @@
+ {% extends "base.html" %}
+
+{% block content %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/posts_style.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/edit.css') }}" />
+
+<div class="row">
+    <div class="col">
+        <div class="container-fluid gedf-wrapper">
+            <form class="edit_form" action="" method="post" enctype=multipart/form-data>
+                        {{ form.hidden_tag() }}
+                        {{ form.csrf_token }}
+                    <div class="form-group">
+                        {% if im_user == 1 %}
+                            {{ form.name(class="form-control", id="name",
+                         style="background-color: #60246c;
+                                border: 1px solid #d9906f;")}}
+                            {{ form.info(class="form-control", id="info", placeholder="About yourself",
+                     style="background-color: #60246c;
+                            border: 1px solid #d9906f;")}}
+                        {% else %}
+                     {{ form.name(class="form-control", id=name, placeholder="Group name",
+                     style="background-color: #60246c;
+                            border: 1px solid #d9906f;")}}
+                     {{ form.info(class="form-control", id=info, placeholder="About your group",
+                     style="background-color: #60246c;
+                            border: 1px solid #d9906f;")}}
+                        {% endif %}
+                        <div class="custom-file">
+                            {{form.avatar(type="file", class="form-control-file", id="customFile", )}}
+                            <label class="custom-file-label" for="customFile"
+                                   style="background-color: #60246c;
+                                          border: 1px solid #d9906f;
+                                          color: #6c757d;">Avatar</label>
+                        </div>
+                      <div class="btn-group">
+                                {{form.submit(type="submit", class="btn btn-outline-warning my-2 my-sm-0")}}
+                          {% if im_user == 0 %}
+                                <a class="btn btn-outline-warning my-2 my-sm-0"
+                                   href="/group_delete/{{info.id}}">Delete group</a>
+                          {% else %}
+                              <a class="btn btn-outline-warning my-2 my-sm-0"
+                                       href="{{url_for('delete')}}">Delete profile</a>
+                          {% endif %}
+                      </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+ <p></p>
+ <p align="center"><img width="300" src="{{ url_for('static', filename=pic)}}" alt=""></p>
+{% endblock %}

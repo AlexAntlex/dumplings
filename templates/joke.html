@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_style.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/posts_style.css') }}" />
+
+<p align="center"><h8 class="card-text color-text">{{joke}}</h8>
+<p align="center"><img width="350" src="{{ url_for('static', filename=name)}}" alt="">
+<p align="center"><a href="/joke" class="btn btn-outline-warning my-2 my-sm-0">Get another joke</a>
+    <a href="/" class="btn btn-outline-warning my-2 my-sm-0">Back to start page</a>
+{% endblock %}

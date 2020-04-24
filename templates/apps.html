@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_style.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/posts_style.css') }}" />
+
+<div>
+        <table align="center" cellpadding="15">
+            <tr>
+              <td><p align="center"><a href="{{url_for('game', id=1)}}"><img src="static/img/game1.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=1)}}">Duck hunter</a></p></td>
+              <td><p align="center"><a href="{{url_for('game', id=2)}}"><img src="static/img/game2.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=2)}}">Fire and water</a></p></td>
+              <td><p align="center"><a href="{{url_for('game', id=3)}}"><img src="static/img/game3.jpg" alt="" width="105"></a>
+                  <p align="center"><a href="{{url_for('game', id=3)}}">Masyanya in Africa</a></td>
+              <td><p align="center"><a href="{{url_for('game', id=4)}}"><img src="static/img/game4.jpg" alt="" width="105"></a>
+                  <p align="center"><a href="{{url_for('game', id=4)}}">Ski safari</a></td>
+              <td><p align="center"><a href="{{url_for('game', id=5)}}"><img src="static/img/game5.jpg" alt="" width="105"></a>
+                  <p align="center"><a href="{{url_for('game', id=5)}}">Sushi cafe escape</a></td></tr>
+        </table>
+
+        <table align="center" cellpadding="15">
+            <tr>
+                <td><p align="center"><a href="{{url_for('game', id=6)}}"><img src="static/img/game6.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=6)}}">MK: presidents</a></p></td>
+                <td><p align="center"><a href="{{url_for('game', id=7)}}"><img src="static/img/game7.png" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=7)}}">WORLD CRAFTS</a></p></td>
+                <td><p align="center"><a href="{{url_for('game', id=8)}}"><img src="static/img/game8.png" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=8)}}">BLOCK WORLD</a></td>
+                <td><p align="center"><a href="{{url_for('game', id=9)}}"><img src="static/img/game9.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=9)}}">Hobo</a></td>
+                <td><p align="center"><a href="{{url_for('game', id=10)}}"><img src="static/img/game10.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=10)}}">Hobo: Prison Brawl</a></p></td></tr>
+        </table>
+
+
+        <table align="center" cellpadding="15">
+            <tr>
+                <td><p align="center"><a href="{{url_for('game', id=11)}}"><img src="static/img/game11.png" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=11)}}">Hobo 3: Wanted</a></td>
+                <td><p align="center"><a href="{{url_for('game', id=12)}}"><img src="static/img/game12.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=12)}}">Hobo 4: Total War</a></p></td>
+                <td><p align="center"><a href="{{url_for('game', id=13)}}"><img src="static/img/game13.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=13)}}">Beauty Baahn</a></td>
+                <td><p align="center"><a href="{{url_for('game', id=14)}}"><img src="static/img/game14.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=14)}}">Avatar Aang</a></td>
+                <td><p align="center"><a href="{{url_for('game', id=15)}}"><img src="static/img/game15.jpg" alt="" width="105"></a></p>
+                  <p align="center"><a href="{{url_for('game', id=15)}}">Zuma</a></p></td></tr>
+        </table>
+
+</div>
+{% endblock %}
