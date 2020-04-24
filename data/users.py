@@ -34,8 +34,7 @@ class User(SqlAlchemyBase, SerializerMixin, UserMixin):
             self.follower.remove(group)
 
     def is_following(self, group):
-        return self.follower.filter(
-            user_group.c.followed_id == group.id).count() > 0
+        return group in self.follower
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

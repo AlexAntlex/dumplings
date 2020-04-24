@@ -22,12 +22,12 @@
                         <h6>{{info.info}}</h6>
                           {% if my != '0' %}
                             <div class="btn-group" role="group" aria-label="Basic example">
-                              {% if not current_user.is_following(info) %}
+                              {% if not user.is_following(info) %}
                                     <a class="btn btn-outline-warning my-2 my-sm-0" href="/follow/{{info.id}}">Follow</a></p>
                               {% else %}
                                     <a class="btn btn-outline-warning my-2 my-sm-0" href="/unfollow/{{info.id}}">Unfollow</a></p>
                               {% endif %}
-                              {% if current_user.id == info.admin%}
+                              {% if user.id == info.admin%}
                                 <a class="btn btn-outline-warning my-2 my-sm-0" href="/group_edit/{{info.id}}">Edit</a>
                               {% endif %}
                           </div>

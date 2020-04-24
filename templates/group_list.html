@@ -11,16 +11,18 @@
     <div class="container">
         <li class="row">
             {% for item in groups %}
-                <li class="col-sm-4">
-                     <div class="card" style="background-color: #161618;">
-                        <img class="card-img-top" src="../{{item.avatar}}" alt="Card image cap">
-                        <div class="card-body">
-                           <h5 class="card-title border-bottom pb-3" style="color: var(--yellow);">{{ item.name }}</h5>
-                           <p class="card-text" style="color: var(--yellow);">{{ item.info }}</p>
-                           <a href="/group/{{item.id}}" class="btn btn-sm btn-outline-warning float-right">Read more <i class="fas fa-angle-double-right"></i></a>
-                        </div>
-                     </div>
-                </li>
+                {% if user.is_following(item) %}
+                    <li class="col-sm-4">
+                         <div class="card" style="background-color: #161618;">
+                            <img class="card-img-top" src="../{{item.avatar}}" alt="Card image cap">
+                            <div class="card-body">
+                               <h5 class="card-title border-bottom pb-3" style="color: var(--yellow);">{{ item.name }}</h5>
+                               <p class="card-text" style="color: var(--yellow);">{{ item.info }}</p>
+                               <a href="/group/{{item.id}}" class="btn btn-sm btn-outline-warning float-right">Read more <i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                         </div>
+                    </li>
+                {% endif %}
             {% endfor %}
         </li>
     </div>
